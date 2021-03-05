@@ -7,7 +7,7 @@ class EMCursorResult {
   factory EMCursorResult.fromJson(Map<String, dynamic> map, {dataItemCallback: cursorResultCallback}) {
     var result = EMCursorResult._private()
       .._cursor = map['cursor']
-      .._data = List();
+      .._data = [];
 
     (map['list'] as List).forEach((element) => result._data!.add(dataItemCallback(element)));
 

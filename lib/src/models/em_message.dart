@@ -84,7 +84,7 @@ class EMMessage {
     this.to,
   })  : this.from = EMClient.getInstance.currentUsername,
         this.conversationId = to {
-    _emMessageChannel.setMethodCallHandler((MethodCall call) {
+    _emMessageChannel.setMethodCallHandler((MethodCall call) async {
       Map argMap = call.arguments;
       int? localTime = argMap['localTime'];
       if (this.localTime != localTime) return null;
@@ -324,7 +324,7 @@ class EMMessage {
     return data;
   }
 
-  factory EMMessage.fromJson(Map<String, dynamic>? map) {
+  static fromJson(Map<String, dynamic>? map) {
     if (map == null) return null;
     return EMMessage._private()
       ..to = map['to'] as String?

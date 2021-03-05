@@ -9,10 +9,10 @@ class EMChatManager {
   static const MethodChannel _channel =
       const MethodChannel('$_channelPrefix/em_chat_manager', JSONMethodCodec());
 
-  final _messageListeners = List<EMChatManagerListener>();
+  final _messageListeners = <EMChatManagerListener>[];
 
   EMChatManager() {
-    _channel.setMethodCallHandler((MethodCall call) {
+    _channel.setMethodCallHandler((MethodCall call) async {
       if (call.method == EMSDKMethod.onMessagesReceived) {
         return _onMessagesReceived(call.arguments);
       } else if (call.method == EMSDKMethod.onCmdMessagesReceived) {
@@ -120,7 +120,7 @@ class EMChatManager {
 
   /// 导入消息 [messages].
   Future<bool?> importMessages(List<EMMessage> messages) async {
-    List<Map> list = List();
+    List<Map> list = [];
     messages.forEach((element) {
       list.add(element.toJson());
     });
@@ -150,7 +150,7 @@ class EMChatManager {
   Future<List<EMConversation>> loadAllConversations() async {
     Map result = await (_channel.invokeMethod(EMSDKMethod.loadAllConversations) as FutureOr<Map<dynamic, dynamic>>);
     EMError.hasErrorFromResult(result);
-    var conversationList = List<EMConversation>();
+    var conversationList = <EMConversation>[];
     result[EMSDKMethod.loadAllConversations]?.forEach((element) {
       conversationList.add(EMConversation.fromJson(element));
     });
@@ -223,7 +223,7 @@ class EMChatManager {
     Map result =
         await (_channel.invokeMethod(EMSDKMethod.searchChatMsgFromDB, req) as FutureOr<Map<dynamic, dynamic>>);
     EMError.hasErrorFromResult(result);
-    List<EMMessage> list = List();
+    List<EMMessage> list = [];
     (result[EMSDKMethod.searchChatMsgFromDB] as List).forEach((element) {
       list.add(EMMessage.fromJson(element));
     });
@@ -232,7 +232,7 @@ class EMChatManager {
 
   /// @nodoc
   Future<void> _onMessagesReceived(List messages) async {
-    var messageList = List<EMMessage>();
+    var messageList = <EMMessage>[];
     for (var message in messages) {
       messageList.add(EMMessage.fromJson(message));
     }
@@ -243,7 +243,7 @@ class EMChatManager {
 
   /// @nodoc
   Future<void> _onCmdMessagesReceived(List messages) async {
-    var list = List<EMMessage>();
+    var list = <EMMessage>[];
     for (var message in messages) {
       list.add(EMMessage.fromJson(message));
     }
@@ -254,7 +254,7 @@ class EMChatManager {
 
   /// @nodoc
   Future<void> _onMessagesRead(List messages) async {
-    var list = List<EMMessage>();
+    var list = <EMMessage>[];
     for (var message in messages) {
       list.add(EMMessage.fromJson(message));
     }
@@ -265,7 +265,7 @@ class EMChatManager {
 
   /// @nodoc
   Future<void> _onMessagesDelivered(List messages) async {
-    var list = List<EMMessage>();
+    var list = <EMMessage>[];
     for (var message in messages) {
       list.add(EMMessage.fromJson(message));
     }
@@ -275,7 +275,7 @@ class EMChatManager {
   }
 
   Future<void> _onMessagesRecalled(List messages) async {
-    var list = List<EMMessage>();
+    var list = <EMMessage>[];
     for (var message in messages) {
       list.add(EMMessage.fromJson(message));
     }

@@ -26,8 +26,8 @@ class EMClient {
   final EMChatRoomManager _chatRoomManager = EMChatRoomManager();
   final EMGroupManager _groupManager = EMGroupManager();
   final EMPushManager _pushManager = EMPushManager();
-  final _connectionListeners = List<EMConnectionListener>();
-  final _multiDeviceListeners = List<EMMultiDeviceListener>();
+  final _connectionListeners = <EMConnectionListener>[];
+  final _multiDeviceListeners = <EMMultiDeviceListener>[];
 
   /// instance fields
   bool _connected = false;
@@ -63,7 +63,7 @@ class EMClient {
   }
 
   void _addNativeMethodCallHandler() {
-    _channel.setMethodCallHandler((MethodCall call) {
+    _channel.setMethodCallHandler((MethodCall call) async {
       Map? argMap = call.arguments;
       if (call.method == EMSDKMethod.onConnected) {
         return _onConnected();
@@ -167,7 +167,7 @@ class EMClient {
     Map result = await (_channel.invokeMethod(
         EMSDKMethod.getLoggedInDevicesFromServer, req) as FutureOr<Map<dynamic, dynamic>>);
     EMError.hasErrorFromResult(result);
-    List<EMDeviceInfo> list = List();
+    List<EMDeviceInfo> list = [];
     (result[EMSDKMethod.getLoggedInDevicesFromServer] as List).forEach((info) {
       list.add(EMDeviceInfo.fromJson(info));
     });

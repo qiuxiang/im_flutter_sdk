@@ -7,7 +7,7 @@ class EMPageResult{
   factory EMPageResult.fromJson(Map map, {dataItemCallback: pageResultCallback}) {
     var result= EMPageResult._private();
     result.._pageCount = map['count'];
-    result.._data = List();
+    result.._data = [];
 
     (map['list'] as List).forEach((element) => result._data!.add(dataItemCallback(element)));
 

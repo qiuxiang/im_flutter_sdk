@@ -14,7 +14,7 @@ class EMGroupManager {
       '$_channelPrefix/em_group_manager', JSONMethodCodec());
 
   EMGroupManager() {
-    _channel.setMethodCallHandler((MethodCall call) {
+    _channel.setMethodCallHandler((MethodCall call) async {
       Map? argMap = call.arguments;
       print('[EMGroupChange:]' + argMap.toString());
       if (call.method == EMSDKMethod.onGroupChanged) {
@@ -24,7 +24,7 @@ class EMGroupManager {
     });
   }
 
-  final _groupChangeListeners = List<EMGroupChangeListener>();
+  final _groupChangeListeners = <EMGroupChangeListener>[];
 
   /// 根据群组id获取群实例
   Future<EMGroup> getGroupWithId(String groupId) async {
@@ -38,7 +38,7 @@ class EMGroupManager {
   Future<List<EMGroup>> getJoinedGroups() async {
     Map result = await (_channel.invokeMethod(EMSDKMethod.getJoinedGroups) as FutureOr<Map<dynamic, dynamic>>);
     EMError.hasErrorFromResult(result);
-    var list = List();
+    var list = [];
     (result[EMSDKMethod.getJoinedGroups] as List)
         .forEach((element) => list.add(EMGroup.fromJson(element)));
     return list as FutureOr<List<EMGroup>>;
@@ -49,7 +49,7 @@ class EMGroupManager {
     Map result = await (_channel
         .invokeMethod(EMSDKMethod.getGroupsWithoutPushNotification) as FutureOr<Map<dynamic, dynamic>>);
     EMError.hasErrorFromResult(result);
-    var list = List();
+    var list = [];
     (result[EMSDKMethod.getGroupsWithoutPushNotification] as List)
         .forEach((element) => list.add(element));
     return list as FutureOr<List<String>>;
@@ -64,7 +64,7 @@ class EMGroupManager {
     Map result =
         await (_channel.invokeMethod(EMSDKMethod.getJoinedGroupsFromServer, req) as FutureOr<Map<dynamic, dynamic>>);
     EMError.hasErrorFromResult(result);
-    List<EMGroup> list = List();
+    List<EMGroup> list = [];
     (result[EMSDKMethod.getJoinedGroupsFromServer] as List)
         .forEach((element) => list.add(EMGroup.fromJson(element)));
     return list;
@@ -190,7 +190,7 @@ class EMGroupManager {
     Map result = await (_channel.invokeMethod(
         EMSDKMethod.getGroupFileListFromServer, req) as FutureOr<Map<dynamic, dynamic>>);
     EMError.hasErrorFromResult(result);
-    List<EMGroupSharedFile> list = List();
+    List<EMGroupSharedFile> list = [];
     (result[EMSDKMethod.getGroupFileListFromServer] as List).forEach((element) {
       list.add(EMGroupSharedFile.fromJson(element));
     });
@@ -356,7 +356,7 @@ class EMGroupManager {
   }
 
   /// 对所有群成员禁言，白名单中的用户不会被限制
-  Future<void> muteAllMembers(String groupId) async {
+  Future<EMGroup> muteAllMembers(String groupId) async {
     Map req = {'groupId': groupId};
     Map result = await (_channel.invokeMethod(EMSDKMethod.muteAllMembers, req) as FutureOr<Map<dynamic, dynamic>>);
     EMError.hasErrorFromResult(result);
@@ -364,7 +364,7 @@ class EMGroupManager {
   }
 
   /// 取消对所有群成员禁言
-  Future<void> unMuteAllMembers(String groupId) async {
+  Future<EMGroup> unMuteAllMembers(String groupId) async {
     Map req = {'groupId': groupId};
     Map result = await (_channel.invokeMethod(EMSDKMethod.unMuteAllMembers, req) as FutureOr<Map<dynamic, dynamic>>);
     EMError.hasErrorFromResult(result);

@@ -13,7 +13,7 @@ class EMChatRoom {
 
   String toString() => toJson().toString();
 
-  factory EMChatRoom.fromJson(Map <String, dynamic>? map) {
+  static fromJson(Map <String, dynamic>? map) {
     if(map == null) return null;
     return EMChatRoom._private()
     .._roomId = map['roomId'] as String?

@@ -15,7 +15,7 @@ class EMError implements Exception {
     return _description;
   }
 
-  factory EMError.fromJson(Map? map) {
+  static fromJson(Map? map) {
     if (map == null) return null;
     return EMError._private()
       .._code = map['code']

@@ -14,7 +14,7 @@ class EMContactManager {
 
   /// @nodoc
   EMContactManager() {
-    _channel.setMethodCallHandler((MethodCall call) {
+    _channel.setMethodCallHandler((MethodCall call) async {
       Map? argMap = call.arguments;
       if (call.method == EMSDKMethod.onContactChanged) {
         return _onContactChanged(argMap!);
@@ -24,7 +24,7 @@ class EMContactManager {
   }
 
   final List<EMContactEventListener> _contactChangeEventListeners =
-      List<EMContactEventListener>();
+      <EMContactEventListener>[];
   List<String>? _blackList;
 
   /// 本地缓存的黑名单列表，在从服务器获取黑名单后有值
@@ -85,7 +85,7 @@ class EMContactManager {
     Map result =
         await (_channel.invokeMethod(EMSDKMethod.getAllContactsFromServer) as FutureOr<Map<dynamic, dynamic>>);
     EMError.hasErrorFromResult(result);
-    List<EMContact> contacts = List();
+    List<EMContact> contacts = [];
     result[EMSDKMethod.getAllContactsFromServer]?.forEach((element) {
       // 此处做了一个适配，目前native 返回的都是String, 为了避免以后出现进一步扩展，flutter直接返回contact对象
       contacts.add(EMContact.fromJson({'eid': element}));
@@ -117,7 +117,7 @@ class EMContactManager {
     Map result =
         await (_channel.invokeMethod(EMSDKMethod.getBlackListFromServer) as FutureOr<Map<dynamic, dynamic>>);
     EMError.hasErrorFromResult(result);
-    List<EMContact> blackList = List();
+    List<EMContact> blackList = [];
     result[EMSDKMethod.getAllContactsFromServer]?.forEach((element) {
       // 此处做了一个适配，目前native 返回的都是String, 为了避免以后出现进一步扩展，flutter直接返回contact对象
       blackList.add(EMContact.fromJson({'eid': element}));

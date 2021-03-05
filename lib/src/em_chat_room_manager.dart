@@ -13,7 +13,7 @@ class EMChatRoomManager {
       '$_channelPrefix/em_chat_room_manager', JSONMethodCodec());
 
   EMChatRoomManager() {
-    _channel.setMethodCallHandler((MethodCall call) {
+    _channel.setMethodCallHandler((MethodCall call) async {
       Map? argMap = call.arguments;
       if (call.method == EMSDKMethod.chatRoomChange) {
         return _chatRoomChange(argMap!);
@@ -23,7 +23,7 @@ class EMChatRoomManager {
   }
 
   final List<EMChatRoomEventListener> _chatRoomEventListeners =
-      List<EMChatRoomEventListener>();
+      <EMChatRoomEventListener>[];
 
   /// 添加聊天室监听器
   void addChatRoomChangeListener(EMChatRoomEventListener listener) {
@@ -150,7 +150,7 @@ class EMChatRoomManager {
   Future<List> getAllChatRooms() async {
     Map result = await (_channel.invokeMethod(EMSDKMethod.getAllChatRooms) as FutureOr<Map<dynamic, dynamic>>);
     EMError.hasErrorFromResult(result);
-    List list = List();
+    List list = [];
     (result[EMSDKMethod.getAllChatRooms] as List)
         .forEach((element) => list.add(EMChatRoom.fromJson(element)));
     return list;

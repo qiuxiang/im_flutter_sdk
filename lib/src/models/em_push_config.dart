@@ -1,3 +1,5 @@
+import 'dart:async';
+
 import 'package:flutter/services.dart';
 
 import '../tools/em_log.dart';
@@ -14,7 +16,7 @@ class EMImPushConfig {
   bool? _noDisturb;
   int? _noDisturbStartHour;
   int? _noDisturbEndHour;
-  List<String?>? _noDisturbGroups = List();
+  List<String?>? _noDisturbGroups = [];
 
   EMImPushStyle? get pushStyle => _pushStyle;
   bool? get noDisturb => _noDisturb;
@@ -22,7 +24,7 @@ class EMImPushConfig {
   int? get noDisturbEndHour => _noDisturbEndHour;
   List<String?>? get noDisturbGroups => _noDisturbGroups;
 
-  factory EMImPushConfig.fromJson(Map? map) {
+  static fromJson(Map? map) {
     if (map == null) return null;
     return EMImPushConfig._private()
       .._pushStyle =

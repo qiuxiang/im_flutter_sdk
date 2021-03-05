@@ -1,3 +1,5 @@
+import 'dart:async';
+
 import 'package:flutter/foundation.dart';
 import 'package:flutter/services.dart';
 import 'package:im_flutter_sdk/im_flutter_sdk.dart';
@@ -17,7 +19,7 @@ enum EMMessageSearchDirection { Up, Down }
 class EMConversation {
   EMConversation._private();
 
-  factory EMConversation.fromJson(Map<String, dynamic>? map) {
+  static fromJson(Map<String, dynamic>? map) {
     if (map == null) return null;
     return EMConversation._private()
       ..type = typeFromInt(map['type'])
@@ -92,12 +94,12 @@ extension EMConversationExtension on EMConversation {
     return _lastReceivedMessage;
   }
 
-  get ext {
+  Map<dynamic, dynamic>? get ext {
     // TODO: 从native获取，并同步到_ext;
     return this._ext;
   }
 
-  set ext(Map map) {
+  set ext(Map<dynamic, dynamic>? map) {
     this._ext = map;
     // TODO: 同步到native
   }
@@ -195,7 +197,7 @@ extension EMConversationExtension on EMConversation {
         EMSDKMethod.loadMsgWithMsgType, req) as FutureOr<Map<dynamic, dynamic>>);
     EMError.hasErrorFromResult(result);
 
-    List<EMMessage> list = List();
+    List<EMMessage> list = [];
     (result[EMSDKMethod.loadMsgWithMsgType] as List).forEach((element) {
       list.add(EMMessage.fromJson(element));
     });
@@ -218,7 +220,7 @@ extension EMConversationExtension on EMConversation {
 
     EMError.hasErrorFromResult(result);
 
-    List<EMMessage> msgList = List();
+    List<EMMessage> msgList = [];
     (result[EMSDKMethod.loadMsgWithStartId] as List).forEach((element) {
       msgList.add(EMMessage.fromJson(element));
     });
@@ -244,7 +246,7 @@ extension EMConversationExtension on EMConversation {
 
     EMError.hasErrorFromResult(result);
 
-    List<EMMessage> msgList = List();
+    List<EMMessage> msgList = [];
     (result[EMSDKMethod.loadMsgWithKeywords] as List).forEach((element) {
       msgList.add(EMMessage.fromJson(element));
     });
@@ -266,7 +268,7 @@ extension EMConversationExtension on EMConversation {
 
     EMError.hasErrorFromResult(result);
 
-    List<EMMessage> msgList = List();
+    List<EMMessage> msgList = [];
     (result[EMSDKMethod.loadMsgWithTime] as List).forEach((element) {
       msgList.add(EMMessage.fromJson(element));
     });

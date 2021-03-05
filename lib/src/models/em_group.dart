@@ -53,7 +53,7 @@ class EMGroup {
   EMGroupOptions? get settings => _options;
   EMGroupPermissionType? get permissionType => _permissionType;
 
-  factory EMGroup.fromJson(Map? map) {
+  static fromJson(Map? map) {
     if (map == null) return null;
     return EMGroup._private()
       .._groupId = map['groupId']
@@ -168,7 +168,7 @@ class EMGroupOptions {
   bool? get inviteNeedConfirm => _inviteNeedConfirm;
   String? get ext =>_ext;
 
-  factory EMGroupOptions.fromJson(Map? map) {
+  static fromJson(Map? map) {
     if (map == null) return null;
     return EMGroupOptions._private()
       .._style = EMGroupOptions.styleTypeFromInt(map['style'])
@@ -254,7 +254,7 @@ class EMGroupSharedFile {
   int? get createTime => _createTime;
   int? get fileSize => _fileSize;
 
-  factory EMGroupSharedFile.fromJson(Map? map) {
+  static fromJson(Map? map) {
     if(map == null) return null;
     return EMGroupSharedFile._private()
       .._fileId = map["fileId"]
