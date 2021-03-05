@@ -4,8 +4,8 @@ class EMError implements Exception {
   @pragma("vm:entry-point")
   EMError._private([this._code, this._description]);
 
-  int _code;
-  String _description;
+  int? _code;
+  String? _description;
 
   get code {
     return _code;
@@ -15,7 +15,7 @@ class EMError implements Exception {
     return _description;
   }
 
-  factory EMError.fromJson(Map map) {
+  factory EMError.fromJson(Map? map) {
     if (map == null) return null;
     return EMError._private()
       .._code = map['code']
@@ -37,6 +37,6 @@ class EMError implements Exception {
 
   @override
   String toString() {
-    return "code: " + _code.toString() + " desc: " + _description;
+    return "code: " + _code.toString() + " desc: " + _description!;
   }
 }

@@ -15,9 +15,9 @@ class EMContactManager {
   /// @nodoc
   EMContactManager() {
     _channel.setMethodCallHandler((MethodCall call) {
-      Map argMap = call.arguments;
+      Map? argMap = call.arguments;
       if (call.method == EMSDKMethod.onContactChanged) {
-        return _onContactChanged(argMap);
+        return _onContactChanged(argMap!);
       }
       return null;
     });
@@ -25,16 +25,16 @@ class EMContactManager {
 
   final List<EMContactEventListener> _contactChangeEventListeners =
       List<EMContactEventListener>();
-  List<String> _blackList;
+  List<String>? _blackList;
 
   /// 本地缓存的黑名单列表，在从服务器获取黑名单后有值
-  List<String> get blackList => _blackList;
+  List<String>? get blackList => _blackList;
 
   /// @nodoc
   Future<void> _onContactChanged(Map event) async {
     var type = event['type'];
-    String username = event['username'];
-    String reason = event['reason'];
+    String? username = event['username'];
+    String? reason = event['reason'];
     for (var listener in _contactChangeEventListeners) {
       switch (type) {
         case EMContactChangeEvent.CONTACT_ADD:
@@ -58,24 +58,24 @@ class EMContactManager {
   }
 
   /// 添加联系人[username] with [reason].
-  Future<String> addContact(
+  Future<String?> addContact(
     String username, [
     String reason = '',
   ]) async {
     Map req = {'username': username, 'reason': reason};
-    Map result = await _channel.invokeMethod(EMSDKMethod.addContact, req);
+    Map result = await (_channel.invokeMethod(EMSDKMethod.addContact, req) as FutureOr<Map<dynamic, dynamic>>);
     EMError.hasErrorFromResult(result);
     return result[EMSDKMethod.addContact];
   }
 
   /// 删除联系人 [username]
   /// [keepConversation] true 保留会话和消息  false 不保留, 默认为false
-  Future<String> deleteContact(
+  Future<String?> deleteContact(
     String username, [
     bool keepConversation = false,
   ]) async {
     Map req = {'username': username, 'keepConversation': keepConversation};
-    Map result = await _channel.invokeMethod(EMSDKMethod.deleteContact, req);
+    Map result = await (_channel.invokeMethod(EMSDKMethod.deleteContact, req) as FutureOr<Map<dynamic, dynamic>>);
     EMError.hasErrorFromResult(result);
     return result[EMSDKMethod.deleteContact];
   }
@@ -83,7 +83,7 @@ class EMContactManager {
   /// 从服务器获取所有的好友
   Future<List<EMContact>> getAllContactsFromServer() async {
     Map result =
-        await _channel.invokeMethod(EMSDKMethod.getAllContactsFromServer);
+        await (_channel.invokeMethod(EMSDKMethod.getAllContactsFromServer) as FutureOr<Map<dynamic, dynamic>>);
     EMError.hasErrorFromResult(result);
     List<EMContact> contacts = List();
     result[EMSDKMethod.getAllContactsFromServer]?.forEach((element) {
@@ -95,19 +95,19 @@ class EMContactManager {
   }
 
   /// 把指定用户加入到黑名单中 [username] .
-  Future<String> addUserToBlackList(String username) async {
+  Future<String?> addUserToBlackList(String username) async {
     Map req = {'username': username};
     Map result =
-        await _channel.invokeMethod(EMSDKMethod.addUserToBlackList, req);
+        await (_channel.invokeMethod(EMSDKMethod.addUserToBlackList, req) as FutureOr<Map<dynamic, dynamic>>);
     EMError.hasErrorFromResult(result);
     return result[EMSDKMethod.addUserToBlackList];
   }
 
   /// 把用户从黑名单中移除 [username].
-  Future<String> removeUserFromBlackList(String username) async {
+  Future<String?> removeUserFromBlackList(String username) async {
     Map req = {'username': username};
     Map result =
-        await _channel.invokeMethod(EMSDKMethod.removeUserFromBlackList, req);
+        await (_channel.invokeMethod(EMSDKMethod.removeUserFromBlackList, req) as FutureOr<Map<dynamic, dynamic>>);
     EMError.hasErrorFromResult(result);
     return result[EMSDKMethod.removeUserFromBlackList];
   }
@@ -115,7 +115,7 @@ class EMContactManager {
   /// 从服务器获取黑名单中的用户的ID
   Future<List<EMContact>> getBlackListFromServer() async {
     Map result =
-        await _channel.invokeMethod(EMSDKMethod.getBlackListFromServer);
+        await (_channel.invokeMethod(EMSDKMethod.getBlackListFromServer) as FutureOr<Map<dynamic, dynamic>>);
     EMError.hasErrorFromResult(result);
     List<EMContact> blackList = List();
     result[EMSDKMethod.getAllContactsFromServer]?.forEach((element) {
@@ -126,28 +126,28 @@ class EMContactManager {
   }
 
   /// 接受加好友的邀请[username].
-  Future<String> acceptInvitation(String username) async {
+  Future<String?> acceptInvitation(String username) async {
     Map req = {'username': username};
-    Map result = await _channel.invokeMethod(EMSDKMethod.acceptInvitation, req);
+    Map result = await (_channel.invokeMethod(EMSDKMethod.acceptInvitation, req) as FutureOr<Map<dynamic, dynamic>>);
     EMError.hasErrorFromResult(result);
     return result[EMSDKMethod.acceptInvitation];
   }
 
   /// 拒绝加好友的邀请 [username].
-  Future<String> declineInvitation(String username) async {
+  Future<String?> declineInvitation(String username) async {
     Map req = {'username': username};
     Map result =
-        await _channel.invokeMethod(EMSDKMethod.declineInvitation, req);
+        await (_channel.invokeMethod(EMSDKMethod.declineInvitation, req) as FutureOr<Map<dynamic, dynamic>>);
     EMError.hasErrorFromResult(result);
     return result[EMSDKMethod.declineInvitation];
   }
 
   /// @nodoc 从服务器获取登录用户在其他设备上登录的ID
-  Future<List> getSelfIdsOnOtherPlatform() async {
+  Future<List?> getSelfIdsOnOtherPlatform() async {
     Map result =
-        await _channel.invokeMethod(EMSDKMethod.getSelfIdsOnOtherPlatform);
+        await (_channel.invokeMethod(EMSDKMethod.getSelfIdsOnOtherPlatform) as FutureOr<Map<dynamic, dynamic>>);
     EMError.hasErrorFromResult(result);
-    List<String> devices = result[EMSDKMethod.getSelfIdsOnOtherPlatform];
+    List<String>? devices = result[EMSDKMethod.getSelfIdsOnOtherPlatform];
     return devices;
   }
 

@@ -18,22 +18,22 @@ class EMContact {
 
   EMContact._private([this._eid]);
 
-  String _eid;
-  String _nickname;
-  String _avatarURL = '';
-  String _markName;
+  String? _eid;
+  String? _nickname;
+  String? _avatarURL = '';
+  String? _markName;
 
   /// 环信id
-  String get eid => _eid;
+  String? get eid => _eid;
 
   /// 头像地址
-  String get avatarURL => _avatarURL;
+  String? get avatarURL => _avatarURL;
 
   /// nickname
-  String get nickname => _nickname ?? _eid;
+  String? get nickname => _nickname ?? _eid;
 
   /// 备注名称
-  String get markName => _markName ?? _nickname ?? _eid;
+  String? get markName => _markName ?? _nickname ?? _eid;
 
   Future<void> setMarkName(String markName) async {
     _markName = markName;
