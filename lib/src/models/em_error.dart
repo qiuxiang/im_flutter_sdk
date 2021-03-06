@@ -28,7 +28,7 @@ class EMError implements Exception {
 //  }
 
   static hasErrorFromResult(Map map) {
-    EMError error = EMError.fromJson(map['error']);
+    EMError? error = EMError.fromJson(map['error']);
     if (error != null) {
       EMLog.v('error - ' + error.toString());
       throw (error);

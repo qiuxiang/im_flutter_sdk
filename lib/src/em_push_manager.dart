@@ -12,7 +12,7 @@ class EMPushManager {
 
   /// 从本地获取ImPushConfig
   Future<EMImPushConfig> getImPushConfig() async {
-    Map result = await (_channel.invokeMethod(EMSDKMethod.getImPushConfig) as FutureOr<Map<dynamic, dynamic>>);
+    Map result = await _channel.invokeMethod(EMSDKMethod.getImPushConfig);
     EMError.hasErrorFromResult(result);
     return EMImPushConfig.fromJson(result[EMSDKMethod.getImPushConfig]);
   }
@@ -20,7 +20,7 @@ class EMPushManager {
   /// 从服务器获取ImPushConfig
   Future<EMImPushConfig> getImPushConfigFromServer() async {
     Map result =
-        await (_channel.invokeMethod(EMSDKMethod.getImPushConfigFromServer) as FutureOr<Map<dynamic, dynamic>>);
+        await _channel.invokeMethod(EMSDKMethod.getImPushConfigFromServer);
     EMError.hasErrorFromResult(result);
     return EMImPushConfig.fromJson(
         result[EMSDKMethod.getImPushConfigFromServer]);
@@ -32,7 +32,7 @@ class EMPushManager {
   ) async {
     Map req = {'nickname': nickname};
     Map result =
-        await (_channel.invokeMethod(EMSDKMethod.updatePushNickname, req) as FutureOr<Map<dynamic, dynamic>>);
+        await _channel.invokeMethod(EMSDKMethod.updatePushNickname, req);
     EMError.hasErrorFromResult(result);
     return result.boolValue(EMSDKMethod.updatePushNickname);
   }

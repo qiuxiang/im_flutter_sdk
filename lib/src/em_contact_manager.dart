@@ -63,7 +63,7 @@ class EMContactManager {
     String reason = '',
   ]) async {
     Map req = {'username': username, 'reason': reason};
-    Map result = await (_channel.invokeMethod(EMSDKMethod.addContact, req) as FutureOr<Map<dynamic, dynamic>>);
+    Map result = await _channel.invokeMethod(EMSDKMethod.addContact, req);
     EMError.hasErrorFromResult(result);
     return result[EMSDKMethod.addContact];
   }
@@ -75,7 +75,7 @@ class EMContactManager {
     bool keepConversation = false,
   ]) async {
     Map req = {'username': username, 'keepConversation': keepConversation};
-    Map result = await (_channel.invokeMethod(EMSDKMethod.deleteContact, req) as FutureOr<Map<dynamic, dynamic>>);
+    Map result = await _channel.invokeMethod(EMSDKMethod.deleteContact, req);
     EMError.hasErrorFromResult(result);
     return result[EMSDKMethod.deleteContact];
   }
@@ -83,7 +83,7 @@ class EMContactManager {
   /// 从服务器获取所有的好友
   Future<List<EMContact>> getAllContactsFromServer() async {
     Map result =
-        await (_channel.invokeMethod(EMSDKMethod.getAllContactsFromServer) as FutureOr<Map<dynamic, dynamic>>);
+        await _channel.invokeMethod(EMSDKMethod.getAllContactsFromServer);
     EMError.hasErrorFromResult(result);
     List<EMContact> contacts = [];
     result[EMSDKMethod.getAllContactsFromServer]?.forEach((element) {
@@ -98,7 +98,7 @@ class EMContactManager {
   Future<String?> addUserToBlackList(String username) async {
     Map req = {'username': username};
     Map result =
-        await (_channel.invokeMethod(EMSDKMethod.addUserToBlackList, req) as FutureOr<Map<dynamic, dynamic>>);
+        await _channel.invokeMethod(EMSDKMethod.addUserToBlackList, req);
     EMError.hasErrorFromResult(result);
     return result[EMSDKMethod.addUserToBlackList];
   }
@@ -107,7 +107,7 @@ class EMContactManager {
   Future<String?> removeUserFromBlackList(String username) async {
     Map req = {'username': username};
     Map result =
-        await (_channel.invokeMethod(EMSDKMethod.removeUserFromBlackList, req) as FutureOr<Map<dynamic, dynamic>>);
+        await _channel.invokeMethod(EMSDKMethod.removeUserFromBlackList, req);
     EMError.hasErrorFromResult(result);
     return result[EMSDKMethod.removeUserFromBlackList];
   }
@@ -115,7 +115,7 @@ class EMContactManager {
   /// 从服务器获取黑名单中的用户的ID
   Future<List<EMContact>> getBlackListFromServer() async {
     Map result =
-        await (_channel.invokeMethod(EMSDKMethod.getBlackListFromServer) as FutureOr<Map<dynamic, dynamic>>);
+        await _channel.invokeMethod(EMSDKMethod.getBlackListFromServer);
     EMError.hasErrorFromResult(result);
     List<EMContact> blackList = [];
     result[EMSDKMethod.getAllContactsFromServer]?.forEach((element) {
@@ -128,7 +128,7 @@ class EMContactManager {
   /// 接受加好友的邀请[username].
   Future<String?> acceptInvitation(String username) async {
     Map req = {'username': username};
-    Map result = await (_channel.invokeMethod(EMSDKMethod.acceptInvitation, req) as FutureOr<Map<dynamic, dynamic>>);
+    Map result = await _channel.invokeMethod(EMSDKMethod.acceptInvitation, req);
     EMError.hasErrorFromResult(result);
     return result[EMSDKMethod.acceptInvitation];
   }
@@ -137,7 +137,7 @@ class EMContactManager {
   Future<String?> declineInvitation(String username) async {
     Map req = {'username': username};
     Map result =
-        await (_channel.invokeMethod(EMSDKMethod.declineInvitation, req) as FutureOr<Map<dynamic, dynamic>>);
+        await _channel.invokeMethod(EMSDKMethod.declineInvitation, req);
     EMError.hasErrorFromResult(result);
     return result[EMSDKMethod.declineInvitation];
   }
@@ -145,7 +145,7 @@ class EMContactManager {
   /// @nodoc 从服务器获取登录用户在其他设备上登录的ID
   Future<List?> getSelfIdsOnOtherPlatform() async {
     Map result =
-        await (_channel.invokeMethod(EMSDKMethod.getSelfIdsOnOtherPlatform) as FutureOr<Map<dynamic, dynamic>>);
+        await _channel.invokeMethod(EMSDKMethod.getSelfIdsOnOtherPlatform);
     EMError.hasErrorFromResult(result);
     List<String>? devices = result[EMSDKMethod.getSelfIdsOnOtherPlatform];
     return devices;

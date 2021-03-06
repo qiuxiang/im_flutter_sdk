@@ -102,15 +102,15 @@ class EMChatRoomManager {
 
   /// 加入聊天室[roomId].
   Future<void> joinChatRoom(String roomId) async {
-    Map result = await (_channel
-        .invokeMethod(EMSDKMethod.joinChatRoom, {"roomId": roomId}) as FutureOr<Map<dynamic, dynamic>>);
+    Map result = await _channel
+        .invokeMethod(EMSDKMethod.joinChatRoom, {"roomId": roomId});
     EMError.hasErrorFromResult(result);
   }
 
   /// 离开聊天室[roomId].
   Future<void> leaveChatRoom(String roomId) async {
-    Map result = await (_channel
-        .invokeMethod(EMSDKMethod.leaveChatRoom, {"roomId": roomId}) as FutureOr<Map<dynamic, dynamic>>);
+    Map result = await _channel
+        .invokeMethod(EMSDKMethod.leaveChatRoom, {"roomId": roomId});
     EMError.hasErrorFromResult(result);
   }
 
@@ -119,9 +119,9 @@ class EMChatRoomManager {
     int pageNum = 1,
     int pageSize = 200,
   }) async {
-    Map result = await (_channel.invokeMethod(
+    Map result = await _channel.invokeMethod(
         EMSDKMethod.fetchPublicChatRoomsFromServer,
-        {"pageNum": pageNum, "pageSize": pageSize}) as FutureOr<Map<dynamic, dynamic>>);
+        {"pageNum": pageNum, "pageSize": pageSize});
     EMError.hasErrorFromResult(result);
     return EMPageResult.fromJson(
         result[EMSDKMethod.fetchPublicChatRoomsFromServer],
@@ -132,23 +132,23 @@ class EMChatRoomManager {
 
   /// 获取聊天室详情[roomId].
   Future<EMChatRoom> fetchChatRoomInfoFromServer(String roomId) async {
-    Map result = await (_channel.invokeMethod(
-        EMSDKMethod.fetchChatRoomInfoFromServer, {"roomId": roomId}) as FutureOr<Map<dynamic, dynamic>>);
+    Map result = await _channel.invokeMethod(
+        EMSDKMethod.fetchChatRoomInfoFromServer, {"roomId": roomId});
     EMError.hasErrorFromResult(result);
     return EMChatRoom.fromJson(result[EMSDKMethod.fetchChatRoomInfoFromServer]);
   }
 
   /// 从本地获取聊天室 [roomId].
   Future<EMChatRoom> getChatRoomWithId(String roomId) async {
-    Map result = await (_channel
-        .invokeMethod(EMSDKMethod.getChatRoom, {"roomId": roomId}) as FutureOr<Map<dynamic, dynamic>>);
+    Map result = await _channel
+        .invokeMethod(EMSDKMethod.getChatRoom, {"roomId": roomId});
     EMError.hasErrorFromResult(result);
     return EMChatRoom.fromJson(result[EMSDKMethod.fetchChatRoomInfoFromServer]);
   }
 
   /// 获取所有聊天室
   Future<List> getAllChatRooms() async {
-    Map result = await (_channel.invokeMethod(EMSDKMethod.getAllChatRooms) as FutureOr<Map<dynamic, dynamic>>);
+    Map result = await _channel.invokeMethod(EMSDKMethod.getAllChatRooms);
     EMError.hasErrorFromResult(result);
     List list = [];
     (result[EMSDKMethod.getAllChatRooms] as List)
@@ -169,7 +169,7 @@ class EMChatRoomManager {
     req['welcomeMsg'] = welcomeMsg;
     req['maxUserCount'] = maxUserCount;
     req['members'] = members;
-    Map result = await (_channel.invokeMethod(EMSDKMethod.createChatRoom, req) as FutureOr<Map<dynamic, dynamic>>);
+    Map result = await _channel.invokeMethod(EMSDKMethod.createChatRoom, req);
     EMError.hasErrorFromResult(result);
     return EMChatRoom.fromJson(result[EMSDKMethod.createChatRoom]);
   }
@@ -179,7 +179,7 @@ class EMChatRoomManager {
     String roomId,
   ) async {
     Map req = {"roomId": roomId};
-    Map result = await (_channel.invokeMethod(EMSDKMethod.destroyChatRoom, req) as FutureOr<Map<dynamic, dynamic>>);
+    Map result = await _channel.invokeMethod(EMSDKMethod.destroyChatRoom, req);
     EMError.hasErrorFromResult(result);
   }
 
@@ -190,7 +190,7 @@ class EMChatRoomManager {
   ) async {
     Map req = {"roomId": roomId, "subject": subject};
     Map result =
-        await (_channel.invokeMethod(EMSDKMethod.changeChatRoomSubject, req) as FutureOr<Map<dynamic, dynamic>>);
+        await _channel.invokeMethod(EMSDKMethod.changeChatRoomSubject, req);
     EMError.hasErrorFromResult(result);
   }
 
@@ -201,7 +201,7 @@ class EMChatRoomManager {
   ) async {
     Map req = {"roomId": roomId, "description": description};
     Map result =
-        await (_channel.invokeMethod(EMSDKMethod.changeChatRoomDescription, req) as FutureOr<Map<dynamic, dynamic>>);
+        await _channel.invokeMethod(EMSDKMethod.changeChatRoomDescription, req);
     EMError.hasErrorFromResult(result);
   }
 
@@ -213,7 +213,7 @@ class EMChatRoomManager {
   }) async {
     Map req = {"roomId": roomId, "cursor": cursor, "pageSize": pageSize};
     Map result =
-        await (_channel.invokeMethod(EMSDKMethod.fetchChatRoomMembers, req) as FutureOr<Map<dynamic, dynamic>>);
+        await _channel.invokeMethod(EMSDKMethod.fetchChatRoomMembers, req);
     EMError.hasErrorFromResult(result);
     return EMCursorResult.fromJson(result[EMSDKMethod.fetchChatRoomMembers],
         dataItemCallback: (obj) => obj);
@@ -232,7 +232,7 @@ class EMChatRoomManager {
       "duration": duration
     };
     Map result =
-        await (_channel.invokeMethod(EMSDKMethod.muteChatRoomMembers, req) as FutureOr<Map<dynamic, dynamic>>);
+        await _channel.invokeMethod(EMSDKMethod.muteChatRoomMembers, req);
     EMError.hasErrorFromResult(result);
   }
 
@@ -243,7 +243,7 @@ class EMChatRoomManager {
   ) async {
     Map req = {"roomId": roomId, "unMuteMembers": unMuteMembers};
     Map result =
-        await (_channel.invokeMethod(EMSDKMethod.unMuteChatRoomMembers, req) as FutureOr<Map<dynamic, dynamic>>);
+        await _channel.invokeMethod(EMSDKMethod.unMuteChatRoomMembers, req);
     EMError.hasErrorFromResult(result);
   }
 
@@ -255,7 +255,7 @@ class EMChatRoomManager {
   ) async {
     Map req = {"roomId": roomId, "newOwner": newOwner};
     Map result =
-        await (_channel.invokeMethod(EMSDKMethod.changeChatRoomOwner, req) as FutureOr<Map<dynamic, dynamic>>);
+        await _channel.invokeMethod(EMSDKMethod.changeChatRoomOwner, req);
     EMError.hasErrorFromResult(result);
   }
 
@@ -266,7 +266,7 @@ class EMChatRoomManager {
     String admin,
   ) async {
     Map req = {"roomId": roomId, "admin": admin};
-    Map result = await (_channel.invokeMethod(EMSDKMethod.addChatRoomAdmin, req) as FutureOr<Map<dynamic, dynamic>>);
+    Map result = await _channel.invokeMethod(EMSDKMethod.addChatRoomAdmin, req);
     EMError.hasErrorFromResult(result);
   }
 
@@ -278,7 +278,7 @@ class EMChatRoomManager {
   ) async {
     Map req = {"roomId": roomId, "admin": admin};
     Map result =
-        await (_channel.invokeMethod(EMSDKMethod.removeChatRoomAdmin, req) as FutureOr<Map<dynamic, dynamic>>);
+        await _channel.invokeMethod(EMSDKMethod.removeChatRoomAdmin, req);
     EMError.hasErrorFromResult(result);
   }
 
@@ -290,7 +290,7 @@ class EMChatRoomManager {
   }) async {
     Map req = {"roomId": roomId, "pageNum": pageNum, "pageSize": pageSize};
     Map result =
-        await (_channel.invokeMethod(EMSDKMethod.fetchChatRoomMuteList, req) as FutureOr<Map<dynamic, dynamic>>);
+        await _channel.invokeMethod(EMSDKMethod.fetchChatRoomMuteList, req);
     EMError.hasErrorFromResult(result);
     return result[EMSDKMethod.fetchChatRoomMuteList];
   }
@@ -302,7 +302,7 @@ class EMChatRoomManager {
   ) async {
     Map req = {"roomId": roomId, "members": members};
     Map result =
-        await (_channel.invokeMethod(EMSDKMethod.removeChatRoomMembers, req) as FutureOr<Map<dynamic, dynamic>>);
+        await _channel.invokeMethod(EMSDKMethod.removeChatRoomMembers, req);
     EMError.hasErrorFromResult(result);
   }
 
@@ -313,7 +313,7 @@ class EMChatRoomManager {
   ) async {
     Map req = {"roomId": roomId, "members": members};
     Map result =
-        await (_channel.invokeMethod(EMSDKMethod.blockChatRoomMembers, req) as FutureOr<Map<dynamic, dynamic>>);
+        await _channel.invokeMethod(EMSDKMethod.blockChatRoomMembers, req);
     EMError.hasErrorFromResult(result);
   }
 
@@ -324,7 +324,7 @@ class EMChatRoomManager {
   ) async {
     Map req = {"roomId": roomId, "members": members};
     Map result =
-        await (_channel.invokeMethod(EMSDKMethod.unBlockChatRoomMembers, req) as FutureOr<Map<dynamic, dynamic>>);
+        await _channel.invokeMethod(EMSDKMethod.unBlockChatRoomMembers, req);
     EMError.hasErrorFromResult(result);
   }
 
@@ -336,7 +336,7 @@ class EMChatRoomManager {
   ]) async {
     Map req = {"roomId": roomId, "pageNum": pageNum, "pageSize": pageSize};
     Map result =
-        await (_channel.invokeMethod(EMSDKMethod.fetchChatRoomBlackList, req) as FutureOr<Map<dynamic, dynamic>>);
+        await _channel.invokeMethod(EMSDKMethod.fetchChatRoomBlackList, req);
     EMError.hasErrorFromResult(result);
     return result[EMSDKMethod.fetchChatRoomBlackList];
   }
@@ -347,8 +347,8 @@ class EMChatRoomManager {
     String announcement,
   ) async {
     Map req = {"roomId": roomId, "announcement": announcement};
-    Map result = await (_channel.invokeMethod(
-        EMSDKMethod.updateChatRoomAnnouncement, req) as FutureOr<Map<dynamic, dynamic>>);
+    Map result = await _channel.invokeMethod(
+        EMSDKMethod.updateChatRoomAnnouncement, req);
     EMError.hasErrorFromResult(result);
   }
 
@@ -358,7 +358,7 @@ class EMChatRoomManager {
   ) async {
     Map req = {"roomId": roomId};
     Map result =
-        await (_channel.invokeMethod(EMSDKMethod.fetchChatRoomAnnouncement, req) as FutureOr<Map<dynamic, dynamic>>);
+        await _channel.invokeMethod(EMSDKMethod.fetchChatRoomAnnouncement, req);
     EMError.hasErrorFromResult(result);
     return result[EMSDKMethod.fetchChatRoomAnnouncement];
   }

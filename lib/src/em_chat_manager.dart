@@ -33,7 +33,7 @@ class EMChatManager {
   /// 发送消息 [message].
   Future<EMMessage> sendMessage(EMMessage message) async {
     Map result =
-        await (_channel.invokeMethod(EMSDKMethod.sendMessage, message.toJson()) as FutureOr<Map<dynamic, dynamic>>);
+        await _channel.invokeMethod(EMSDKMethod.sendMessage, message.toJson());
     EMError.hasErrorFromResult(result);
     EMMessage msg = EMMessage.fromJson(result[EMSDKMethod.sendMessage]);
     message.from = msg.from;
@@ -44,8 +44,8 @@ class EMChatManager {
 
   /// 重发消息 [message].
   Future<EMMessage> resendMessage(EMMessage message) async {
-    Map result = await (_channel.invokeMethod(
-        EMSDKMethod.resendMessage, message.toJson()) as FutureOr<Map<dynamic, dynamic>>);
+    Map result = await _channel.invokeMethod(
+        EMSDKMethod.resendMessage, message.toJson());
     EMError.hasErrorFromResult(result);
     EMMessage msg = EMMessage.fromJson(result[EMSDKMethod.resendMessage]);
     message.from = msg.from;
@@ -57,7 +57,7 @@ class EMChatManager {
   /// 发送消息已读 [message].
   Future<bool?> sendMessageReadAck(EMMessage message) async {
     Map req = {"to": message.from, "msg_id": message.msgId};
-    Map result = await (_channel.invokeMethod(EMSDKMethod.ackMessageRead, req) as FutureOr<Map<dynamic, dynamic>>);
+    Map result = await _channel.invokeMethod(EMSDKMethod.ackMessageRead, req);
     EMError.hasErrorFromResult(result);
     return result.boolValue(EMSDKMethod.ackMessageRead);
   }
@@ -65,7 +65,7 @@ class EMChatManager {
   /// 撤回发送的消息(增值服务), 默认时效为2分钟，超过2分钟无法撤回.
   Future<bool?> recallMessage(String messageId) async {
     Map req = {"msg_id": messageId};
-    Map result = await (_channel.invokeMethod(EMSDKMethod.recallMessage, req) as FutureOr<Map<dynamic, dynamic>>);
+    Map result = await _channel.invokeMethod(EMSDKMethod.recallMessage, req);
     EMError.hasErrorFromResult(result);
     return result.boolValue(EMSDKMethod.recallMessage);
   }
@@ -74,7 +74,7 @@ class EMChatManager {
   Future<EMMessage> loadMessage(String messageId) async {
     Map req = {"msg_id": messageId};
     Map<String, dynamic> result =
-        await (_channel.invokeMethod(EMSDKMethod.getMessage, req) as FutureOr<Map<String, dynamic>>);
+        await _channel.invokeMethod(EMSDKMethod.getMessage, req);
     EMError.hasErrorFromResult(result);
     return EMMessage.fromJson(result[EMSDKMethod.getMessage]);
   }
@@ -90,21 +90,21 @@ class EMChatManager {
       "type": EMConversation.typeToInt(type),
       "createIfNeed": createIfNeed
     };
-    Map result = await (_channel.invokeMethod(EMSDKMethod.getConversation, req) as FutureOr<Map<dynamic, dynamic>>);
+    Map result = await _channel.invokeMethod(EMSDKMethod.getConversation, req);
     EMError.hasErrorFromResult(result);
     return EMConversation.fromJson(result[EMSDKMethod.getConversation]);
   }
 
   /// 将所有对话标记为已读.
   Future<bool?> markAllConversationsAsRead() async {
-    Map result = await (_channel.invokeMethod(EMSDKMethod.markAllChatMsgAsRead) as FutureOr<Map<dynamic, dynamic>>);
+    Map result = await _channel.invokeMethod(EMSDKMethod.markAllChatMsgAsRead);
     EMError.hasErrorFromResult(result);
     return result.boolValue(EMSDKMethod.markAllChatMsgAsRead);
   }
 
   /// 获取未读消息的计数.
   Future<int?> getUnreadMessageCount() async {
-    Map result = await (_channel.invokeMethod(EMSDKMethod.getUnreadMessageCount) as FutureOr<Map<dynamic, dynamic>>);
+    Map result = await _channel.invokeMethod(EMSDKMethod.getUnreadMessageCount);
     EMError.hasErrorFromResult(result);
     return result[EMSDKMethod.getUnreadMessageCount] as int?;
   }
@@ -113,7 +113,7 @@ class EMChatManager {
   Future<EMMessage> updateMessage(EMMessage message) async {
     Map req = {"message": message.toJson()};
     Map result =
-        await (_channel.invokeMethod(EMSDKMethod.updateChatMessage, req) as FutureOr<Map<dynamic, dynamic>>);
+        await _channel.invokeMethod(EMSDKMethod.updateChatMessage, req);
     EMError.hasErrorFromResult(result);
     return EMMessage.fromJson(result[EMSDKMethod.updateChatMessage]);
   }
@@ -125,30 +125,30 @@ class EMChatManager {
       list.add(element.toJson());
     });
     Map req = {"messages": list};
-    Map result = await (_channel.invokeMethod(EMSDKMethod.importMessages, req) as FutureOr<Map<dynamic, dynamic>>);
+    Map result = await _channel.invokeMethod(EMSDKMethod.importMessages, req);
     EMError.hasErrorFromResult(result);
     return result.boolValue(EMSDKMethod.importMessages);
   }
 
   /// 下载附件 [message].
   Future<bool?> downloadAttachment(EMMessage message) async {
-    Map result = await (_channel.invokeMethod(
-        EMSDKMethod.downloadAttachment, {"message": message.toJson()}) as FutureOr<Map<dynamic, dynamic>>);
+    Map result = await _channel.invokeMethod(
+        EMSDKMethod.downloadAttachment, {"message": message.toJson()});
     EMError.hasErrorFromResult(result);
     return result.boolValue(EMSDKMethod.downloadAttachment);
   }
 
   /// 下载缩略图 [message].
   Future<bool?> downloadThumbnail(EMMessage message) async {
-    Map result = await (_channel.invokeMethod(
-        EMSDKMethod.downloadThumbnail, {"message": message.toJson()}) as FutureOr<Map<dynamic, dynamic>>);
+    Map result = await _channel.invokeMethod(
+        EMSDKMethod.downloadThumbnail, {"message": message.toJson()});
     EMError.hasErrorFromResult(result);
     return result.boolValue(EMSDKMethod.downloadThumbnail);
   }
 
   /// 获取所有会话
   Future<List<EMConversation>> loadAllConversations() async {
-    Map result = await (_channel.invokeMethod(EMSDKMethod.loadAllConversations) as FutureOr<Map<dynamic, dynamic>>);
+    Map result = await _channel.invokeMethod(EMSDKMethod.loadAllConversations);
     EMError.hasErrorFromResult(result);
     var conversationList = <EMConversation>[];
     result[EMSDKMethod.loadAllConversations]?.forEach((element) {
@@ -164,7 +164,7 @@ class EMChatManager {
   ]) async {
     Map req = {"con_id": conversationId, "deleteMessages": deleteMessages};
     Map result =
-        await (_channel.invokeMethod(EMSDKMethod.deleteConversation, req) as FutureOr<Map<dynamic, dynamic>>);
+        await _channel.invokeMethod(EMSDKMethod.deleteConversation, req);
     EMError.hasErrorFromResult(result);
     return result.boolValue(EMSDKMethod.deleteConversation);
   }
@@ -195,7 +195,7 @@ class EMChatManager {
     req['pageSize'] = pageSize;
     req['startMsgId'] = startMsgId;
     Map result =
-        await (_channel.invokeMethod(EMSDKMethod.fetchHistoryMessages, req) as FutureOr<Map<dynamic, dynamic>>);
+        await _channel.invokeMethod(EMSDKMethod.fetchHistoryMessages, req);
     EMError.hasErrorFromResult(result);
     return EMCursorResult.fromJson(result[EMSDKMethod.fetchHistoryMessages],
         dataItemCallback: (value) {
@@ -221,7 +221,7 @@ class EMChatManager {
     req['direction'] = direction == EMMessageSearchDirection.Up ? "up" : "down";
 
     Map result =
-        await (_channel.invokeMethod(EMSDKMethod.searchChatMsgFromDB, req) as FutureOr<Map<dynamic, dynamic>>);
+        await _channel.invokeMethod(EMSDKMethod.searchChatMsgFromDB, req);
     EMError.hasErrorFromResult(result);
     List<EMMessage> list = [];
     (result[EMSDKMethod.searchChatMsgFromDB] as List).forEach((element) {
