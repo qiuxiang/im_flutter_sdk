@@ -38,10 +38,10 @@ class EMGroupManager {
   Future<List<EMGroup>> getJoinedGroups() async {
     Map result = await _channel.invokeMethod(EMSDKMethod.getJoinedGroups);
     EMError.hasErrorFromResult(result);
-    var list = [];
+    var list = <EMGroup>[];
     (result[EMSDKMethod.getJoinedGroups] as List)
         .forEach((element) => list.add(EMGroup.fromJson(element)));
-    return list as FutureOr<List<EMGroup>>;
+    return list;
   }
 
   /// 获取免打扰的群组列表id
